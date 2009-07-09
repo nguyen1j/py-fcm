@@ -1,0 +1,11 @@
+.*\.swp
+.*\.so
+.*\.o
+.*\.os
+.*\.dylib
+.*\.pyc
+.*~
+.*Store
+.*\.h5
+src/statistics/treg/*
+.*\.orig
