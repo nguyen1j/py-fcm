@@ -14,7 +14,7 @@ class FCMdataTestCase(unittest.TestCase):
     def testGetPnts(self):
         a = randint(0,1)
         b = randint(0,2)
-        assert self.fcm.view()[a,b] == self.pnts[a,b], "Data not consistent with inital data"
+        assert self.fcm.view()[a,b] == self.pnts[a,b], "Data not consistent with initial data"
             
     def testGetChannelByName(self):
         assert self.fcm.get_channel_by_name(['fsc'])[0] == 0, 'incorrect first column'
@@ -85,6 +85,10 @@ class FCMdataTestCase(unittest.TestCase):
         
     def testGetAttr(self):
         assert self.fcm.shape == (2,3), '__gettattr__ failed to deligate'
+        
+    def testSummary(self):
+        tmp =  self.fcm.summary()
+        assert tmp.startswith('fsc:') == True, 'Summary failed'
         
 if __name__ == '__main__':
     suite1 = unittest.makeSuite(FCMdataTestCase,'test')

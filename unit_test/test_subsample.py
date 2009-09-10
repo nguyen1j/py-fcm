@@ -1,7 +1,7 @@
 '''
 Created on Aug 27, 2009
 
-@author: jolly
+@author: Jacob Frelinger <Jacob.Frelinger@duke.edu>
 '''
 import unittest
 from fcm import FCMdata
