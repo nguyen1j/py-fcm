@@ -90,7 +90,7 @@ class FCMdataTestCase(unittest.TestCase):
         cols = [0,1]
         g = PolyGate(verts, cols)
         self.fcm.gate(g).gate(g)
-        assert self.fcm.view().all() == array([[0,1,2]]).all(), 'gate excluded wrong points'
+        self.assertTrue( all(self.fcm.view()== array([[0,1,2]])), 'gate excluded wrong points')
         
     def testGetAttr(self):
         assert self.fcm.shape == (2,3), '__gettattr__ failed to deligate'
@@ -98,6 +98,22 @@ class FCMdataTestCase(unittest.TestCase):
     def testSummary(self):
         tmp =  self.fcm.summary()
         assert tmp.startswith('fsc:') == True, 'Summary failed'
+        
+    def testPickle(self):
+        import pickle
+        import StringIO
+        buffer = StringIO.StringIO()
+        pickle.dump(self.fcm, buffer)
+        buffer.seek(0)
+        tmp = pickle.load(buffer)
+        self.assertTrue(all(self.fcm[:] == tmp[:]))
+        for i in range(3):
+            buffer = StringIO.StringIO()
+            pickle.dump(tmp, buffer)
+            buffer.seek(0)
+            tmp = pickle.load(buffer)
+        self.assertTrue(all(self.fcm[:] == tmp[:]))
+        
         
 if __name__ == '__main__':
     suite1 = unittest.makeSuite(FCMdataTestCase,'test')
