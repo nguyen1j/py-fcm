@@ -1,0 +1,27 @@
+.*\.swp
+.*\.so
+.*\.o
+.*\.os
+.*\.dylib
+.*\.pyc
+.*~
+.*Store
+.*\.h5
+sample_data/treg/*
+.*\.orig
+.*\.png
+.*\.jpg
+.*\.jpeg
+.*\.tif
+.*\.tiff
+.*\.gif
+.*\.avi
+.*\.mov
+.*\.log
+scratch/*
+build/*
+
+syntax: regexp
+^MANIFEST$
+syntax: regexp
+^dist$
