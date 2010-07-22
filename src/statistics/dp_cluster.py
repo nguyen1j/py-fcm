@@ -209,5 +209,10 @@ class ModalDPMixture(DPMixture, HasTraits):
         returns the classification (which mixture) x is a member of
         '''
         probs = self.prob(x)
-        return array([i.argmax(0) for i in probs])
+        try:
+            n,j = x.shape 
+            return array([i.argmax(0) for i in probs])
+        except ValueError:
+            return probs.argmax(0)
+
 
