@@ -10,7 +10,6 @@ import numpy
 from numpy.linalg import solve, inv
 from fcm.statistics.distributions import mixnormpdf, mvnormpdf, mixnormrnd
 
-#TODO one of these (modesearch and mode_search) needs to be nuked.  figure out which one
 def modesearch(pis, mus, sigmas, tol=1e-5, maxiter=20):
     """find the modes of a mixture of guassians"""
     n = mus.shape[0]
@@ -90,7 +89,8 @@ def _mode_search(pi, mu, sigma, nk=0, tol=0.000001, maxiter=20):
             px = py
             h += 1
 
-        mdict[tuple(allx[js])] = [numpy.round(x,rnd),px] # eliminate duplicates
+        # mdict[tuple(allx[js])] = [numpy.round(x,rnd),px] # eliminate duplicates
+        mdict[tuple(numpy.round(x,2))] = [numpy.round(x,rnd),px] # eliminate duplicates
 
     return mdict, sm, spm
 
