@@ -164,7 +164,7 @@ void CDPBaseCUDA::MakeGPUPlans(int startdevice, int numdevices) {
 	hMeanAndSigma = new REAL[PACK_DIM * kT * kJ]();
 	hComponent = new INT[kN * 2]();
 	hRandomNumber = new REAL[kN]();
-	hZ = new INT[kN];
+	hZ = new INT[kN]();
 #if defined(TEST_GPU)
 	hDensities = new REAL[kN * kT * kJ]();
 #endif
@@ -350,9 +350,9 @@ int CDPBaseCUDA::initializeInstance(
 
 void CDPBaseCUDA::finalize(void) {
 	// fix the memory here later!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	return;
+	//return;
 	if (plans[0].Multithread) {
-		#if defined(MULTI_GPU)
+#if defined(MULTI_GPU)
 			for(int i=0; i<kDeviceCount; i++) {
 				workers[i]->call(bind(cudaFree,plans[i].dX));
 				workers[i]->call(bind(cudaFree,plans[i].dMeanAndSigma));
@@ -380,6 +380,7 @@ void CDPBaseCUDA::finalize(void) {
 		cudaFree(plans[0].dMeanAndSigma);
 		cudaFree(plans[0].dRandomNumber);
 		cudaFree(plans[0].dComponent);
+		cudaFree(plans[0].dZ);
 
 #if defined(CDP_MEANCOV)
 		cudaFree(plans[0].dMean);
@@ -387,23 +388,24 @@ void CDPBaseCUDA::finalize(void) {
 		cudaFree(plans[0].dRowIndices);
 		cudaFree(plans[0].dIndices);
 #endif
+		//std::cout << cudaGetErrorString(cudaThreadSynchronize()) << std::endl;
+		std::cout << cudaGetErrorString(cudaThreadExit()) << std::endl;
 
 	}
-
-	delete [] hX;
-	// free(hX);
-	hX = NULL;
-	delete [] hMeanAndSigma;
-	// free(hMeanAndSigma);
-	hMeanAndSigma = NULL;
-	delete [] hComponent;
-	// free(hComponent);
-	hComponent = NULL;
-	delete hRandomNumber;
-	// free(hRandomNumber);
-	hRandomNumber = NULL;
-	delete [] hZ;
-	hZ = NULL;
+/*
+	if(initializedInstance != 0) {
+	*/
+	//delete [] hX;
+	//hX = NULL;
+	//delete [] hMeanAndSigma;
+	//hMeanAndSigma = NULL;
+	//delete [] hComponent;
+	//hComponent = NULL;
+	//delete hRandomNumber;
+	//hRandomNumber = NULL;
+	//delete [] hZ;
+	//hZ = NULL;
+	/*
 
 #if defined(CDP_MEANCOV)
 	delete [] hMean;
@@ -426,8 +428,11 @@ void CDPBaseCUDA::finalize(void) {
 	#ifdef CHECK_GPU
 		checkCUDAError("Post-finalization");
 	#endif
-
 	initializedInstance = 0;
+	printf("DONE\n");
+	}
+*/
+	
 }
 
 int CDPBaseCUDA::initializeData(double** iX) {
